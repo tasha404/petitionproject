@@ -3,55 +3,71 @@ import SignButton from "./SignButton";
 import RecentSigners from "./RecentSigners";
 
 function PetitionCard() {
-
   const current = 347;
   const goal = 1000;
 
   return (
+    <div className="mx-auto max-w-6xl rounded-[32px] border border-pink-100 bg-white/95 p-6 shadow-[0_22px_60px_-22px_rgba(59,130,246,0.45)] md:p-8">
+      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <div className="hero-detail flex items-center gap-3 text-xs font-semibold uppercase tracking-[4px] text-pink-600">
+            <span>PUBLIC PETITION</span>
+            <span className="text-pink-600">•</span>
+            <span>LIVE VOTES</span>
+          </div>
 
-    <div
-      className="
-        max-w-3xl
-        mx-auto
-        bg-white/5
-        backdrop-blur-2xl
-        border
-        border-white/10
-        rounded-3xl
-        p-10
-        shadow-2xl
-        hover:border-cyan-400/40
-        hover:shadow-cyan-500/10
-        transition
-        duration-300"
-    >
+          <h2 className="bonello-title mt-5 text-4xl font-black text-slate-900 md:text-5xl">
+            Save Our Hyeok Park 🌳
+          </h2>
 
-      <span className="text-cyan-400 font-semibold">
-        PUBLIC PETITION
-      </span>
+          <p className="hero-detail mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
+            Protect our precious community park from redevelopment. Every verified
+            wallet represents one legitimate vote. Our collective voice can make a difference, 
+            and together we can ensure that Hyeok Park remains a green sanctuary for generations to come.
+          </p>
 
-      <h2 className="text-4xl font-bold mt-3">
-        Save Our Park 🌳
-      </h2>
+          <div className="mt-7 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-pink-100 bg-white p-4 shadow-sm">
+              <p className="hero-detail text-[11px] uppercase tracking-[3px] text-slate-500">Momentum</p>
+              <p className="hero-detail mt-2 text-[1.5rem] font-bold text-slate-900">+18%</p>
+            </div>
+            <div className="rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
+              <p className="hero-detail text-[11px] uppercase tracking-[3px] text-slate-500">Verified</p>
+              <p className="hero-detail mt-2 text-[1.5rem] font-bold text-slate-900">97%</p>
+            </div>
+            <div className="rounded-2xl border border-pink-100 bg-white p-4 shadow-sm">
+              <p className="hero-detail text-[11px] uppercase tracking-[3px] text-slate-500">District</p>
+              <p className="hero-detail mt-2 text-[1.5rem] font-bold text-slate-900">Los TashLee</p>
+            </div>
+          </div>
 
-      <p className="mt-5 text-slate-400 leading-7">
+          <ProgressBar current={current} goal={goal} />
+          <SignButton />
+        </div>
 
-        Protect our local community park from redevelopment.
-        Every verified wallet represents one legitimate vote.
+        <div className="bell-mt p-0">
+          <div className="p-0">
+            <p className="stat-title text-[16px] font-black uppercase tracking-[4px] text-pink-600">IMPACT SNAPSHOT</p>
+            <div className="mt-4 space-y-3">
+              <div className="flex items-center justify-between rounded-[16px] bg-[#f5d6e5]/95 px-4 py-3">
+                <span className="text-[17px] font-medium text-slate-700">Signatures today</span>
+                <strong className="text-[19px] font-bold text-slate-900">41</strong>
+              </div>
+              <div className="flex items-center justify-between rounded-[16px] bg-[#dceeff]/95 px-4 py-3">
+                <span className="text-[17px] font-medium text-slate-700">Campaign deadline</span>
+                <strong className="text-[19px] font-bold text-slate-900">12 JUL</strong>
+              </div>
+              <div className="flex items-center justify-between rounded-[16px] bg-[#f5d6e5]/95 px-4 py-3">
+                <span className="text-[17px] font-medium text-slate-700">Cities in motion</span>
+                <strong className="text-[19px] font-bold text-slate-900">09</strong>
+              </div>
+            </div>
+          </div>
 
-      </p>
-
-      <ProgressBar
-        current={current}
-        goal={goal}
-      />
-
-      <SignButton />
-
-      <RecentSigners />
-
+          <RecentSigners />
+        </div>
+      </div>
     </div>
-
   );
 }
 

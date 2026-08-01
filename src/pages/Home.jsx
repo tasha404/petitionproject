@@ -5,24 +5,19 @@ import Stats from "../components/Stats";
 
 function Home() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
-
-      <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-600 blur-[180px] rounded-full opacity-20" />
-
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500 blur-[180px] rounded-full opacity-20" />
+    <div className="page-shell relative min-h-screen overflow-hidden bg-white text-slate-900">
+      <div className="ambient-grid" />
+      <div className="absolute left-[-6rem] top-[-3rem] h-72 w-72 rounded-full bg-pink-200/50 blur-[140px]" />
+      <div className="absolute right-[-4rem] top-16 h-80 w-80 rounded-full bg-blue-200/50 blur-[160px]" />
+      <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-sky-200/45 blur-[160px]" />
 
       <Navbar />
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6">
-
+      <main className="relative z-10 mx-auto max-w-7xl px-6 pb-16">
         <Hero />
-
         <Stats />
-
         <PetitionCard />
-
       </main>
-
     </div>
   );
 }

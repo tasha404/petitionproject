@@ -1,5 +1,34 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Bonello";
+  src: url("/font/Bonello-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TWM Typewriter";
+  src: url("/font/CHICKEN Pie Height.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mell MT";
+  src: url("/font/ELEGANT%20TYPEWRITER%20Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color: #10203d;
+  background: #ffffff;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -7,8 +36,8 @@ html {
 body {
   margin: 0;
   font-family: Inter, system-ui, sans-serif;
-  background: #020617;
-  color: white;
+  background: #ffffff;
+  color: #10203d;
 }
 
 * {
@@ -17,4 +46,92 @@ body {
 
 button {
   cursor: pointer;
+}
+
+.page-shell {
+  background-color: #ffffff;
+  background-image:
+    linear-gradient(rgba(96, 165, 250, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 114, 182, 0.12) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.ambient-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgba(147, 197, 253, 0.18), transparent 40%),
+    linear-gradient(135deg, rgba(244, 114, 182, 0.08), transparent 42%),
+    linear-gradient(315deg, rgba(96, 165, 250, 0.1), transparent 56%);
+  pointer-events: none;
+}
+
+.hero-title {
+  font-family: "Bonello", Inter, system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.hero-detail {
+  font-family: "TWM Typewriter", "Courier New", monospace;
+  letter-spacing: 0.03em;
+  line-height: 1.8;
+}
+
+.stat-title,
+.stat-value,
+.bell-mt {
+  font-family: "Bell MT", Georgia, serif;
+}
+
+.bonello-title {
+  font-family: "Bonello", Inter, system-ui, sans-serif;
+}
+
+.glow-text {
+  text-shadow: 0 0 24px rgba(244, 114, 182, 0.18);
+}
+
+.glass-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(245, 248, 255, 0.95)),
+    rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(18px);
+}
+
+.neon-button {
+  background: linear-gradient(135deg, #f472b6, #60a5fa 58%, #93c5fd);
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: translateX(-120%);
+  transition: transform 600ms ease;
+}
+
+.neon-button:hover::before {
+  transform: translateX(120%);
+}
+
+.signal-bar {
+  box-shadow: 0 0 16px rgba(96, 165, 250, 0.4);
+}
+
+.signer-pill {
+  animation: riseIn 500ms ease both;
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

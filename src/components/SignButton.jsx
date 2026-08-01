@@ -1,20 +1,10 @@
 function SignButton() {
   return (
-    <button
-      className="
-      mt-8
-      w-full
-      py-4
-      rounded-xl
-      bg-gradient-to-r
-      from-indigo-600
-      to-cyan-500
-      font-semibold
-      text-lg
-      hover:scale-105
-      transition"
-    >
-      Sign Petition
+    <button className="bell-mt neon-button mt-8 w-full rounded-2xl py-4 text-lg font-semibold text-white shadow-[0_0_30px_rgba(34,211,238,0.25)] transition duration-300">
+      <span className="flex items-center justify-center gap-2">
+        Sign Petition
+        <span className="text-base">→</span>
+      </span>
     </button>
   );
 }
