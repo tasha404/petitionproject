@@ -1,10 +1,44 @@
+import { useState, useEffect, useCallback } from "react";
 import ProgressBar from "./ProgressBar";
 import SignButton from "./SignButton";
 import RecentSigners from "./RecentSigners";
+import { getPetition, getSignatures } from "../services/petitionService";
+
+const PETITION_ID = 0; // "Save Our Park" is petition id 0 on the contract
 
 function PetitionCard() {
-  const current = 347;
   const goal = 1000;
+  const [count, setCount] = useState(0);
+  const [signers, setSigners] = useState([]);
+
+  // Pull the live signature count + signer list from the blockchain.
+  // Used both on first load and after someone signs.
+  const loadData = useCallback(async () => {
+    try {
+      const petition = await getPetition(PETITION_ID);
+      setCount(petition.signatureCount);
+    } catch (err) {
+      console.error("Could not load signature count:", err);
+    }
+    try {
+      const sigs = await getSignatures(PETITION_ID);
+      setSigners(sigs);
+    } catch (err) {
+      console.error("Could not load signers:", err);
+    }
+  }, []);
+
+  // Load once when the card appears. Wrapping in an inner async function is the
+  // pattern React recommends for data fetching in an effect.
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      if (active) await loadData();
+    })();
+    return () => {
+      active = false;
+    };
+  }, [loadData]);
 
   return (
     <div className="mx-auto max-w-6xl rounded-[32px] border border-pink-100 bg-white/95 p-6 shadow-[0_22px_60px_-22px_rgba(59,130,246,0.45)] md:p-8">
@@ -41,8 +75,8 @@ function PetitionCard() {
             </div>
           </div>
 
-          <ProgressBar current={current} goal={goal} />
-          <SignButton />
+          <ProgressBar current={count} goal={goal} />
+          <SignButton petitionId={PETITION_ID} onSigned={loadData} />
         </div>
 
         <div className="bell-mt p-0">
@@ -64,7 +98,7 @@ function PetitionCard() {
             </div>
           </div>
 
-          <RecentSigners />
+          <RecentSigners signers={signers} />
         </div>
       </div>
     </div>
