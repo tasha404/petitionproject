@@ -4,15 +4,20 @@ import SignButton from "./SignButton";
 import RecentSigners from "./RecentSigners";
 import { getPetition, getSignatures } from "../services/petitionService";
 
-const PETITION_ID = 0; // "Save Our Park" is petition id 0 on the contract
+const PETITION_ID = 0;   // "Save Our Park" on the contract
+const GOAL = 1000;
+
+function countToday(signatures) {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  const startSec = Math.floor(start.getTime() / 1000);
+  return signatures.filter((s) => s.timestamp >= startSec).length;
+}
 
 function PetitionCard() {
-  const goal = 1000;
   const [count, setCount] = useState(0);
   const [signers, setSigners] = useState([]);
 
-  // Pull the live signature count + signer list from the blockchain.
-  // Used both on first load and after someone signs.
   const loadData = useCallback(async () => {
     try {
       const petition = await getPetition(PETITION_ID);
@@ -28,73 +33,56 @@ function PetitionCard() {
     }
   }, []);
 
-  // Load once when the card appears. Wrapping in an inner async function is the
-  // pattern React recommends for data fetching in an effect.
   useEffect(() => {
     let active = true;
-    (async () => {
-      if (active) await loadData();
-    })();
-    return () => {
-      active = false;
-    };
+    (async () => { if (active) await loadData(); })();
+    return () => { active = false; };
   }, [loadData]);
 
-  return (
-    <div className="mx-auto max-w-6xl rounded-[32px] border border-pink-100 bg-white/95 p-6 shadow-[0_22px_60px_-22px_rgba(59,130,246,0.45)] md:p-8">
-      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
-          <div className="hero-detail flex items-center gap-3 text-xs font-semibold uppercase tracking-[4px] text-pink-600">
-            <span>PUBLIC PETITION</span>
-            <span className="text-pink-600">•</span>
-            <span>LIVE VOTES</span>
-          </div>
+  const today = countToday(signers);
 
-          <h2 className="bonello-title mt-5 text-4xl font-black text-slate-900 md:text-5xl">
-            Save Our Hyeok Park 🌳
+  return (
+    <div className="card mx-auto max-w-5xl p-6 md:p-9">
+      <div className="grid gap-9 lg:grid-cols-[1.15fr_0.85fr]">
+        {/* Left: the petition */}
+        <div>
+          <p className="eyebrow">Public petition</p>
+
+          <h2 className="display mt-4 text-4xl text-[var(--ink)] md:text-[3.2rem]">
+            Save Our Hyeok Park
           </h2>
 
-          <p className="hero-detail mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
-            Protect our precious community park from redevelopment. Every verified
-            wallet represents one legitimate vote. Our collective voice can make a difference, 
-            and together we can ensure that Hyeok Park remains a green sanctuary for generations to come.
+          <p className="mt-4 max-w-xl leading-relaxed text-[var(--ink-soft)]">
+            Protect our community park from redevelopment. Every verified wallet is
+            one legitimate vote &mdash; together we keep Hyeok Park green for the
+            generations after us.
           </p>
 
-          <div className="mt-7 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-pink-100 bg-white p-4 shadow-sm">
-              <p className="hero-detail text-[11px] uppercase tracking-[3px] text-slate-500">Momentum</p>
-              <p className="hero-detail mt-2 text-[1.5rem] font-bold text-slate-900">+18%</p>
-            </div>
-            <div className="rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
-              <p className="hero-detail text-[11px] uppercase tracking-[3px] text-slate-500">Verified</p>
-              <p className="hero-detail mt-2 text-[1.5rem] font-bold text-slate-900">97%</p>
-            </div>
-            <div className="rounded-2xl border border-pink-100 bg-white p-4 shadow-sm">
-              <p className="hero-detail text-[11px] uppercase tracking-[3px] text-slate-500">District</p>
-              <p className="hero-detail mt-2 text-[1.5rem] font-bold text-slate-900">Los TashLee</p>
-            </div>
+          <div className="mt-6 flex flex-wrap gap-2.5">
+            <span className="chip">100% wallet-verified</span>
+            <span className="chip">Los TashLee district</span>
           </div>
 
-          <ProgressBar current={count} goal={goal} />
+          <ProgressBar current={count} goal={GOAL} />
           <SignButton petitionId={PETITION_ID} onSigned={loadData} />
         </div>
 
-        <div className="bell-mt p-0">
-          <div className="p-0">
-            <p className="stat-title text-[16px] font-black uppercase tracking-[4px] text-pink-600">IMPACT SNAPSHOT</p>
-            <div className="mt-4 space-y-3">
-              <div className="flex items-center justify-between rounded-[16px] bg-[#f5d6e5]/95 px-4 py-3">
-                <span className="text-[17px] font-medium text-slate-700">Signatures today</span>
-                <strong className="text-[19px] font-bold text-slate-900">41</strong>
-              </div>
-              <div className="flex items-center justify-between rounded-[16px] bg-[#dceeff]/95 px-4 py-3">
-                <span className="text-[17px] font-medium text-slate-700">Campaign deadline</span>
-                <strong className="text-[19px] font-bold text-slate-900">12 JUL</strong>
-              </div>
-              <div className="flex items-center justify-between rounded-[16px] bg-[#f5d6e5]/95 px-4 py-3">
-                <span className="text-[17px] font-medium text-slate-700">Cities in motion</span>
-                <strong className="text-[19px] font-bold text-slate-900">09</strong>
-              </div>
+        {/* Right: live snapshot + signers */}
+        <div className="lg:border-l lg:border-[var(--line)] lg:pl-8">
+          <p className="eyebrow">Live snapshot</p>
+
+          <div className="mt-4 space-y-2.5">
+            <div className="tile flex items-center justify-between px-4 py-3">
+              <span className="text-sm text-[var(--ink-soft)]">Signatures today</span>
+              <strong className="display text-lg text-[var(--ink)]">{today}</strong>
+            </div>
+            <div className="tile flex items-center justify-between px-4 py-3">
+              <span className="text-sm text-[var(--ink-soft)]">All-time signatures</span>
+              <strong className="display text-lg text-[var(--ink)]">{count.toLocaleString()}</strong>
+            </div>
+            <div className="tile flex items-center justify-between px-4 py-3">
+              <span className="text-sm text-[var(--ink-soft)]">Goal</span>
+              <strong className="display text-lg text-[var(--ink)]">{GOAL.toLocaleString()}</strong>
             </div>
           </div>
 
